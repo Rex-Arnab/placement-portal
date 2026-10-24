@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Placement Portal
 
-## Getting Started
+A placement portal for tracking job applications through their stages, from applied to hired.
 
-First, run the development server:
+Built with Next.js 16, React 19, Tailwind CSS v4 and TypeScript.
+
+## Getting started
+
+This project uses Yarn 1 (`packageManager: yarn@1.22.22`).
 
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Edit `app/page.tsx`; the page reloads as you save.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command      | What it does               |
+| ------------ | -------------------------- |
+| `yarn dev`   | Start the dev server       |
+| `yarn build` | Build for production       |
+| `yarn start` | Serve the production build |
+| `yarn lint`  | Run ESLint                 |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Design system
 
-## Learn More
+> **Status:** the tokens below are the target design. They are **not in the code yet**.
+> `app/globals.css` still has the create-next-app defaults, and `app/layout.tsx` still loads Geist.
+> The tokens were drafted as a Tailwind v3 `tailwind.config.js`. This project runs Tailwind v4,
+> so they must go into `app/globals.css` as an `@theme` block instead.
 
-To learn more about Next.js, take a look at the following resources:
+### Colours
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Token       | Value                 | Use                                                                 |
+| ----------- | --------------------- | ------------------------------------------------------------------- |
+| `action`    | `#346B63`             | Primary actions (hover `#2B5A53`, active `#234A44`, soft `#E9F4EE`) |
+| `emphasis`  | `#1A3332`             | Navigation, dark hero                                               |
+| `highlight` | `#DFEEA4`             | Accent                                                              |
+| `canvas`    | `#F5F7FA`             | Page background                                                     |
+| `surface`   | `#FFFFFF`             | Cards, fields                                                       |
+| `ink`       | `#1D2E33`             | Primary text (muted `#5B6B70`, subtle `#8A979B`)                    |
+| `line`      | `#DCE1E4`             | Borders (strong `#C5CDD1`)                                          |
+| `disabled`  | `#DDE4E7` / `#7D8A8F` | Disabled background / text                                          |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Badges and application stages
 
-## Deploy on Vercel
+Each badge tone has a background and a text colour. Always pair them.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Tone     | Background | Text      | Stages                      |
+| -------- | ---------- | --------- | --------------------------- |
+| `gray`   | `#F5F7FA`  | `#5B6B70` | Applied, Withdrawn          |
+| `blue`   | `#EBF1FE`  | `#2F4FA8` | Review                      |
+| `green`  | `#E9F4EE`  | `#2F6B55` | Shortlisted, Offered, Hired |
+| `purple` | `#F1ECFB`  | `#6A4B9E` | Interview                   |
+| `amber`  | `#FDF4DE`  | `#816124` | Needs review                |
+| `red`    | `#FAEDF0`  | `#A3464D` | Rejected, errors            |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Type
+
+Font: **Manrope**. It is not loaded yet; load it with `next/font/google` in `app/layout.tsx`.
+
+| Token     | Size / line height |
+| --------- | ------------------ |
+| `title`   | 30 / 40            |
+| `heading` | 22 / 30            |
+| `body`    | 16 / 24            |
+| `ui`      | 14 / 22            |
+
+### Layout
+
+- Corner radius: 8px (buttons, fields, badges), 12px (cards), 16px (panels, hero cards).
+- Sidebar width: 232px. Max app width: 1440px.
+- Page margin: 40px on desktop, 20px on mobile.
+- Minimum tap target: 44px.
+- Breakpoints: 375, 390, 430 and 1440px.
+- Focus: a 2px `action` outline with a 2px offset on `:focus-visible`.
+
+### Components
+
+Planned component classes: `.btn-primary`, `.btn-secondary`, `.btn-ghost` (grey when disabled),
+`.badge`, `.field` (red border when `aria-invalid="true"`), `.field-label`, `.field-error`,
+`.nav-item` (highlighted when `aria-current="page"`), `.card`, and `.metric-label` /
+`.metric-value` / `.metric-hint`.
+
+### Values to confirm
+
+These colours were estimated from screenshots, not taken from Figma. Check them against Figma:
+
+- Badge text colours
+- `ink` muted (`#5B6B70`)
+- `line` border grey (`#DCE1E4`)
